@@ -7,7 +7,7 @@ import RefreshTokenCommandHandler from "../../application/features/commands/refr
 import RefreshTokenRequest from "../../application/features/commands/refresh-token/RefreshTokenCommandRequest";
 
 @Service()
-export class AuthController {
+export default class AuthController {
     constructor(
         @Inject("LoginCommandHandler") private _loginCommandHandler: LoginCommandHandler,
         @Inject("RefreshTokenCommandHandler") private _refreshTokenCommandHandler: RefreshTokenCommandHandler

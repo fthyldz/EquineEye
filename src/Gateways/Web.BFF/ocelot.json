@@ -16,10 +16,7 @@
       "UpstreamHttpMethod": [
         "POST",
         "GET"
-      ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer"
-      }
+      ]
     }
   ]
 }

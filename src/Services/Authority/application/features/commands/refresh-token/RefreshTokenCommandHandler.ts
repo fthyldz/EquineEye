@@ -1,8 +1,6 @@
-import Container, { Inject, Service } from 'typedi';
-import AuthInfo from '../../../../core/entities/AuthInfo';
+import { Inject, Service } from 'typedi';
 import CustomError from '../../../../core/common/models/CustomError';
 import { StatusCodes } from 'http-status-codes';
-import * as bcrypt from 'bcryptjs';
 import ICommandHandler from '../../../../core/interfaces/cqrs/ICommandHandler';
 import RefreshTokenCommandRequest from './RefreshTokenCommandRequest';
 import RefreshTokenCommandResponse from './RefreshTokenCommandResponse';
@@ -15,7 +13,6 @@ import RedisDataSource from '../../../../infrastructure/cache/redis/RedisDataSou
 export default class RefreshTokenCommandHandler implements ICommandHandler<RefreshTokenCommandRequest, RefreshTokenCommandResponse> {
 
     constructor(
-        @Inject("AuthInfoRepository") private _authInfoRepository: IAuthInfoRepository,
         @Inject("TokenService") private _tokenService: ITokenService,
         @Inject("RedisDataSource") private readonly _redisDataSource: RedisDataSource
     ) { }

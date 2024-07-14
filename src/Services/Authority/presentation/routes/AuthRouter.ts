@@ -1,6 +1,6 @@
 import { Router } from "express";
 import Container from "typedi";
-import { AuthController } from "../controllers/AuthController";
+import AuthController from "../controllers/AuthController";
 
 const router = Router();
 

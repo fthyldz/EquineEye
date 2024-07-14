@@ -1,5 +1,4 @@
-import Container, { Inject, Service } from 'typedi';
-import AuthInfo from '../../../../core/entities/AuthInfo';
+import { Inject, Service } from 'typedi';
 import CustomError from '../../../../core/common/models/CustomError';
 import { StatusCodes } from 'http-status-codes';
 import * as bcrypt from 'bcryptjs';

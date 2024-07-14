@@ -22,7 +22,7 @@ export default class RedisDataSource {
     }
 
     async get(key: string): Promise<any> {
-        return await this.client?.get(key);
+        return JSON.parse(await this.client?.get(key));
     }
 
     async delete(key: string): Promise<any> {

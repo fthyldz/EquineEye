@@ -1,6 +1,5 @@
 import { Service } from "typedi";
 import { ITokenService } from "../../interfaces/services/ITokenService";
-import { AuthInfo } from "../../core/entities/AuthInfo";
 import jwt, { Secret, SignOptions } from "jsonwebtoken";
 import { Config } from "../../shared/utils/config";
 import { TokenPayload } from "../../core/models/TokenPayload";
@@ -8,31 +7,24 @@ import { TokenPayload } from "../../core/models/TokenPayload";
 @Service()
 export class TokenService implements ITokenService {
 
-    public generateAccessToken(payload: TokenPayload): string {
-        const accessTokenPayload: TokenPayload = payload;
-        const accessTokenSecret: Secret = Config.get("JWT_TOKEN_SECRET");
-        const accessTokenOptions: SignOptions = { expiresIn: Config.get("JWT_ACCESS_TOKEN_EXPIRY") };
-        const accessToken = jwt.sign(accessTokenPayload, accessTokenSecret, accessTokenOptions);
-        return accessToken;
+    public generateToken(payload: TokenPayload, isAccessToken: boolean = true): string {
+        const tokenPayload: TokenPayload = payload;
+        const tokenSecret: Secret = this.getTokenSecret(isAccessToken);
+        const tokenOptions: SignOptions = { expiresIn: this.getTokenExpiry(isAccessToken) };
+        const token = jwt.sign(tokenPayload, tokenSecret, tokenOptions);
+        return token;
     }
 
-    public generateRefreshToken(payload: TokenPayload): string {
-        const refreshTokenPayload: TokenPayload = payload;
-        const refreshTokenSecret: Secret = Config.get("JWT_REFRESH_TOKEN_SECRET");
-        const refreshTokenOptions: SignOptions = { expiresIn: Config.get("JWT_REFRESH_TOKEN_EXPIRY") };
-        const refreshToken = jwt.sign(refreshTokenPayload, refreshTokenSecret, refreshTokenOptions);
-        return refreshToken;
-
+    public verifyToken(token: string, isAccessToken: boolean = true): TokenPayload {
+        const decode: any = jwt.verify(token, this.getTokenSecret(isAccessToken));
+        return { _id: decode._id, userId: decode.userId, email: decode.email, time: decode.time };
     }
 
-    public verifyAccessToken(accessToken: string): TokenPayload {
-        const decode: any = jwt.verify(accessToken, Config.get("JWT_TOKEN_SECRET")) as TokenPayload;
-        return { _id: decode._id, userId: decode.userId, email: decode.email };
-
+    private getTokenSecret(isAccessToken: boolean = true): string {
+        return Config.get(isAccessToken ? "JWT_ACCESS_TOKEN_SECRET" : "JWT_REFRESH_TOKEN_SECRET")
     }
 
-    public verifyRefreshToken(refreshToken: string): TokenPayload {
-        const decode: any = jwt.verify(refreshToken, Config.get("JWT_REFRESH_TOKEN_SECRET"));
-        return { _id: decode._id, userId: decode.userId, email: decode.email };
+    private getTokenExpiry(isAccessToken: boolean = true): string {
+        return Config.get(isAccessToken ? "JWT_ACCESS_TOKEN_EXPIRY" : "JWT_REFRESH_TOKEN_EXPIRY")
     }
 }

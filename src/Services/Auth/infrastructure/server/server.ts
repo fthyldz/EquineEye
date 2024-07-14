@@ -3,6 +3,7 @@ import { app } from './app';
 import Container from 'typedi';
 import { MongoDBDataSource } from '../database/mongodb/MongoDbDataSource';
 import { Config } from '../../shared/utils/config';
+import { RedisDataSource } from '../cache/redis/redis';
 
 export const startServer = async () => {
     const PORT = Config.getNumber("PORT");
@@ -21,6 +22,8 @@ export const startServer = async () => {
         });
     });
 
+    const redisDataSource = Container.get(RedisDataSource);
+    await redisDataSource.connect();
     const mongoDBDataSource = Container.get(MongoDBDataSource);
     await mongoDBDataSource.connect();
 };

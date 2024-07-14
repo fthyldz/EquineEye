@@ -14,8 +14,8 @@ export default class AuthInfoRepository extends MongoDBRepository<AuthInfo> impl
     try {
       const result = await this.collection.findOne({ email: email });
       return result ? this.mapToEntity(result) : null;
-    } catch (error) {
-      throw new CustomError('Database error', 500, 'DATABASE_ERROR');
+    } catch (error: any) {
+      throw new CustomError('Database error: ' + error.message, 500, 'DATABASE_ERROR');
     }
   }
 }

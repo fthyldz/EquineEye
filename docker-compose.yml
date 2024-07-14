@@ -1,0 +1,62 @@
+version: '3.8'
+networks:
+  dev:
+    driver: bridge
+services:
+  webbff:
+    image: fthyldz/equineeye.web.bff
+    container_name: webbff
+    ports:
+      - 5001:80
+    build: ./src/Gateways/Web.BFF
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:80
+    networks:
+      - dev
+  authority:
+    image: fthyldz/equineeye.authority
+    container_name: authority
+    ports:
+      - 5002:80
+    build: ./src/Services/Authority
+    depends_on:
+      - webbff
+      - redis
+      - mongodb
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:80
+      - ENVIRONMENT=Development
+      - PORT=5002
+      - MONGO_URI=mongodb://admin:1234@mongodb:27017/
+      - DB_NAME=authdb
+      - JWT_ACCESS_TOKEN_SECRET=Xz&P/EEi(s!YGmPG&fy^pBfn*VB<<Bke])SnP<C2m_O9(7w8}VgyFlupH+L%w2<
+      - JWT_REFRESH_TOKEN_SECRET=H;fQ-tDz?0JtGcBGnI8)b)|$zT@~*$}iII3nCT/P0=`>#0C7<-';&_WqvQDJKe[
+      - JWT_ACCESS_TOKEN_EXPIRY=20m
+      - JWT_REFRESH_TOKEN_EXPIRY=45m
+      - REDIS_URI=redis://redis:6379
+    networks:
+      - dev
+  redis:
+    image: 'redis:latest'
+    container_name: redis
+    ports:
+      - '6379:6379'
+    networks:
+      - dev
+  mongodb:
+    image: 'mongo:latest'
+    container_name: mongodb
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=1234
+    ports:
+      - '27017:27017'
+    volumes:
+      - mymongodata:/data/db
+    networks:
+      - dev
+volumes:
+  mymongodata:
+    driver: 'local'

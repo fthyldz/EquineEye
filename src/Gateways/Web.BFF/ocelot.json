@@ -1,6 +1,6 @@
 {
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:5000"
+    "BaseUrl": "webbff:5001"
   },
   "Routes": [
     {
@@ -8,8 +8,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5001
+          "Host": "authority",
+          "Port": 5002
         }
       ],
       "UpstreamPathTemplate": "/auth/{everyting}",

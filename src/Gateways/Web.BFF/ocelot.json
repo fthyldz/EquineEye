@@ -14,8 +14,12 @@
       ],
       "UpstreamPathTemplate": "/auth/{everyting}",
       "UpstreamHttpMethod": [
-        "POST"
-      ]
+        "POST",
+        "GET"
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
     }
   ]
 }

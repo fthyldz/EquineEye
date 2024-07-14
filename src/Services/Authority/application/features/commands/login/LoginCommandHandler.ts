@@ -10,7 +10,7 @@ import IAuthInfoRepository from '../../../../core/interfaces/repositories/IAuthI
 import ITokenService from '../../../../core/interfaces/services/ITokenService';
 import RedisDataSource from '../../../../infrastructure/cache/redis/RedisDataSource';
 
-@Service("LoginCommandHandler")
+@Service()
 export default class LoginCommandHandler implements ICommandHandler<LoginCommandRequest, LoginCommandResponse> {
 
     constructor(

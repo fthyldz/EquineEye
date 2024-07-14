@@ -9,7 +9,7 @@ import IAuthInfoRepository from '../../../../core/interfaces/repositories/IAuthI
 import ITokenService from '../../../../core/interfaces/services/ITokenService';
 import RedisDataSource from '../../../../infrastructure/cache/redis/RedisDataSource';
 
-@Service("RefreshTokenCommandHandler")
+@Service()
 export default class RefreshTokenCommandHandler implements ICommandHandler<RefreshTokenCommandRequest, RefreshTokenCommandResponse> {
 
     constructor(

@@ -36,7 +36,7 @@ export abstract class MongoDBRepository<T extends IEntity> {
     async create(entity: T): Promise<T> {
         try {
             const result = await this.collection.insertOne(this.mapToDocument(entity));
-            entity.id = result.insertedId.toString();
+            entity._id = result.insertedId.toString();
             return entity;
         } catch (error) {
             throw new CustomError('Database error', 500, 'DATABASE_ERROR');
@@ -71,7 +71,7 @@ export abstract class MongoDBRepository<T extends IEntity> {
     }
 
     protected mapToDocument(entity: Partial<T>): any {
-        const { id, ...rest } = entity;
+        const { _id, ...rest } = entity;
         return { ...rest };
     }
 }

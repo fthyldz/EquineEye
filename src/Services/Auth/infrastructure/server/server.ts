@@ -2,9 +2,10 @@ import { createServer } from 'http';
 import { app } from './app';
 import Container from 'typedi';
 import { MongoDBDataSource } from '../database/mongodb/MongoDbDataSource';
+import { Config } from '../../shared/utils/config';
 
 export const startServer = async () => {
-    const PORT = parseInt(process.env.PORT as string, 10);
+    const PORT = Config.getNumber("PORT");
 
     const server = createServer(app);
 

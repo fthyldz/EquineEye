@@ -1,5 +1,6 @@
 import { MongoClient, Db, Collection } from 'mongodb';
 import { Service } from 'typedi';
+import { Config } from '../../../shared/utils/config';
 
 @Service()
 export class MongoDBDataSource {
@@ -8,7 +9,7 @@ export class MongoDBDataSource {
 
     async connect(): Promise<void> {
         if (!this.client) {
-            this.client = new MongoClient(process.env.MONGO_URI as string, {
+            this.client = new MongoClient(Config.get("MONGO_URI"), {
                 maxPoolSize: 100,
                 minPoolSize: 10,
                 maxIdleTimeMS: 30000,
@@ -17,7 +18,7 @@ export class MongoDBDataSource {
         }
         await this.client.connect();
         if (!this.db) {
-            this.db = this.client.db(process.env.DB_NAME);
+            this.db = this.client.db(Config.get("DB_NAME"));
             console.log('Connected to MongoDB');
         }
     }

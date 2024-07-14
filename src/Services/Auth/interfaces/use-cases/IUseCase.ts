@@ -1,3 +1,3 @@
-export abstract class IUseCase<REQ, RES> {
-    abstract execute(request: REQ): Promise<RES>;
+export interface IUseCase<REQ, RES> {
+    execute(request: REQ): Promise<RES>;
 }

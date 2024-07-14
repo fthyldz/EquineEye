@@ -1,6 +1,6 @@
 import { IEntity } from "./interfaces/IEntity";
 
-export class UserInfo implements IEntity {
+export class AuthInfo implements IEntity {
     public _id?: string;
     public externalId: string;
     public email: string;

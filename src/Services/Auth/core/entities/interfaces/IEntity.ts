@@ -1,3 +1,3 @@
 export interface IEntity {
-    id?: string;
+    _id?: string;
 }

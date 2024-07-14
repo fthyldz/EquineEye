@@ -1,5 +1,4 @@
 import Container, { Service } from "typedi";
-import { IUseCase } from "../../../interfaces/use-cases/IUseCase";
 import { UserInfoRepository } from "../../repositories/UserInfoRepository";
 import { IGetUserInfoUseCase } from "../../../interfaces/use-cases/IGetUserInfoUseCase";
 
@@ -12,11 +11,10 @@ export interface GetUserInfoResponse {
 }
 
 @Service()
-export class GetUserInfoUseCase extends IUseCase<GetUserInfoRequest, GetUserInfoResponse> implements IGetUserInfoUseCase {
+export class GetUserInfoUseCase implements IGetUserInfoUseCase<GetUserInfoRequest, GetUserInfoResponse> {
     private readonly _userInfoRepository: UserInfoRepository;
 
     constructor() {
-        super();
         this._userInfoRepository = Container.get(UserInfoRepository);
     }
 

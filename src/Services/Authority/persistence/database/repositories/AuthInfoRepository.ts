@@ -2,7 +2,7 @@ import { Service } from 'typedi';
 import AuthInfo from '../../../core/entities/AuthInfo';
 import MongoDBRepository from '../../../core/interfaces/repositories/MongoDBRepository';
 import IAuthInfoRepository from '../../../core/interfaces/repositories/IAuthInfoRepository';
-import CustomError from '../../../core/common/models/CustomError';
+import CustomError from '../../../core/exceptions/CustomError';
 
 @Service()
 export default class AuthInfoRepository extends MongoDBRepository<AuthInfo> implements IAuthInfoRepository {

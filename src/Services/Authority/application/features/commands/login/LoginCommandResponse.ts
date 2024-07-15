@@ -1,6 +1,6 @@
-import ICommand from "../../../../core/interfaces/cqrs/ICommandRequest";
+import ICommandResponse from "../../../interfaces/cqrs/ICommandResponse";
 
-export default class LoginCommandResponse implements ICommand {
+export default class LoginCommandResponse implements ICommandResponse {
     constructor(
         public accessToken: string,
         public refreshToken: string

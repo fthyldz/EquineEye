@@ -1,13 +1,13 @@
 import { Inject, Service } from 'typedi';
-import CustomError from '../../../../core/common/models/CustomError';
+import CustomError from '../../../../core/exceptions/CustomError';
 import { StatusCodes } from 'http-status-codes';
 import * as bcrypt from 'bcryptjs';
-import ICommandHandler from '../../../../core/interfaces/cqrs/ICommandHandler';
+import ICommandHandler from '../../../interfaces/cqrs/ICommandHandler';
 import LoginCommandRequest from './LoginCommandRequest';
 import LoginCommandResponse from './LoginCommandResponse';
-import TokenPayload from '../../../../core/common/models/TokenPayload';
+import TokenPayload from '../../../../core/models/TokenPayload';
 import IAuthInfoRepository from '../../../../core/interfaces/repositories/IAuthInfoRepository';
-import ITokenService from '../../../../core/interfaces/services/ITokenService';
+import ITokenService from '../../../interfaces/services/ITokenService';
 import RedisDataSource from '../../../../infrastructure/cache/redis/RedisDataSource';
 
 @Service()
@@ -19,12 +19,12 @@ export default class LoginCommandHandler implements ICommandHandler<LoginCommand
         @Inject("RedisDataSource") private readonly _redisDataSource: RedisDataSource
     ) { }
 
-    async execute(commandRequest: LoginCommandRequest): Promise<LoginCommandResponse | CustomError> {
-        const authInfo = await this._authInfoRepository.findByEmail(commandRequest.email);
+    async execute(request: LoginCommandRequest): Promise<LoginCommandResponse | CustomError> {
+        const authInfo = await this._authInfoRepository.findByEmail(request.email);
         if (!authInfo) {
             return new CustomError("Email veya Şifre Hatalı.", StatusCodes.UNAUTHORIZED, "UNAUTHORIZED");
         }
-        if (!await bcrypt.compare(commandRequest.password, authInfo.passwordHashed)) {
+        if (!await bcrypt.compare(request.password, authInfo.passwordHashed)) {
             return new CustomError("Email veya Şifre Hatalı.", StatusCodes.UNAUTHORIZED, "UNAUTHORIZED");
         }
         const tokenPayload: TokenPayload = { _id: authInfo._id as string, userId: authInfo.userId, email: authInfo.email, time: Date.now() };

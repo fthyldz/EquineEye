@@ -1,12 +1,11 @@
 import { Inject, Service } from 'typedi';
-import CustomError from '../../../../core/common/models/CustomError';
+import CustomError from '../../../../core/exceptions/CustomError';
 import { StatusCodes } from 'http-status-codes';
-import ICommandHandler from '../../../../core/interfaces/cqrs/ICommandHandler';
+import ICommandHandler from '../../../interfaces/cqrs/ICommandHandler';
 import RefreshTokenCommandRequest from './RefreshTokenCommandRequest';
 import RefreshTokenCommandResponse from './RefreshTokenCommandResponse';
-import TokenPayload from '../../../../core/common/models/TokenPayload';
-import IAuthInfoRepository from '../../../../core/interfaces/repositories/IAuthInfoRepository';
-import ITokenService from '../../../../core/interfaces/services/ITokenService';
+import TokenPayload from '../../../../core/models/TokenPayload';
+import ITokenService from '../../../interfaces/services/ITokenService';
 import RedisDataSource from '../../../../infrastructure/cache/redis/RedisDataSource';
 
 @Service()
@@ -17,9 +16,9 @@ export default class RefreshTokenCommandHandler implements ICommandHandler<Refre
         @Inject("RedisDataSource") private readonly _redisDataSource: RedisDataSource
     ) { }
 
-    async execute(commandRequest: RefreshTokenCommandRequest): Promise<RefreshTokenCommandResponse | CustomError> {
-        const payload: TokenPayload = this._tokenService.verifyToken(commandRequest.refreshToken, false);
-        if (await this._redisDataSource.get(`${payload.userId}:refreshToken`) !== commandRequest.refreshToken) {
+    async execute(request: RefreshTokenCommandRequest): Promise<RefreshTokenCommandResponse | CustomError> {
+        const payload: TokenPayload = this._tokenService.verifyToken(request.refreshToken, false);
+        if (await this._redisDataSource.get(`${payload.userId}:refreshToken`) !== request.refreshToken) {
             return new CustomError("Refresh Token bulunamadı.", StatusCodes.FORBIDDEN, "FORBIDDEN");
         }
         const accessToken = this._tokenService.generateToken(payload, true);

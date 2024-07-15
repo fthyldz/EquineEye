@@ -1,8 +1,8 @@
 import { Service } from "typedi";
-import ITokenService from "../../core/interfaces/services/ITokenService";
+import ITokenService from "../../application/interfaces/services/ITokenService";
 import * as jwt from "jsonwebtoken";
 import Config from "../../shared/utils/Config";
-import TokenPayload from "../../core/common/models/TokenPayload";
+import TokenPayload from "../../core/models/TokenPayload";
 
 @Service()
 export default class TokenService implements ITokenService {

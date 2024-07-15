@@ -1,6 +1,6 @@
 import { ObjectId, Collection } from 'mongodb';
 import MongoDBDataSource from '../../../persistence/database/mongodb/MongoDBDataSource';
-import CustomError from '../../common/models/CustomError'
+import CustomError from '../../exceptions/CustomError'
 import IEntity from '../../interfaces/entities/IEntity'
 import Container from 'typedi';
 import IMongoDBRepository from './IMongoDBRepository';

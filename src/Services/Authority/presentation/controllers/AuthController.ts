@@ -3,13 +3,13 @@ import { StatusCodes } from "http-status-codes";
 import { Inject, Service } from "typedi";
 import LoginCommandRequest from "../../application/features/commands/login/LoginCommandRequest";
 import RefreshTokenRequest from "../../application/features/commands/refresh-token/RefreshTokenCommandRequest";
-import CustomError from "../../core/common/models/CustomError";
-import Sender from "../../infrastructure/cqrs/Sender";
+import CustomError from "../../core/exceptions/CustomError";
+import ISender from "../../application/interfaces/cqrs/ISender";
 
 @Service()
 export default class AuthController {
     constructor(
-        @Inject("Sender") private _sender: Sender,
+        @Inject("Sender") private _sender: ISender,
     ) { }
 
     public async login(req: Request, res: Response, next: NextFunction) {

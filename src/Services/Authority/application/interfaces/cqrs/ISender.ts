@@ -1,4 +1,4 @@
-import CustomError from "../../common/models/CustomError";
+import CustomError from "../../../core/exceptions/CustomError";
 import IRequest from "./IRequest";
 import IResponse from "./IResponse";
 

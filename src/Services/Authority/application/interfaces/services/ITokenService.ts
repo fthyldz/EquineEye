@@ -1,4 +1,4 @@
-import TokenPayload from "../../common/models/TokenPayload";
+import TokenPayload from "../../../core/models/TokenPayload";
 
 export default interface ITokenService {
     generateToken(payload: TokenPayload, isAccessToken: boolean): string;
